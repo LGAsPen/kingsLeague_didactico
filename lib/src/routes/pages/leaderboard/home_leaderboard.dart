@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kings_league/src/routes/api/api_kings.dart';
 
 class HomeLeaderBoard extends StatefulWidget {
@@ -33,18 +34,20 @@ class _HomeLeaderBoardState extends State<HomeLeaderBoard> {
     return Padding(
       padding: const EdgeInsets.only(top: 10.0),
       child: FutureBuilder(
-        future: _apiKings.getStatistics(),
+        future: _apiKings.getLeaderboard(),
         builder: ((context, snapshot) {
           if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
+            return SizedBox(
+              height: size.height * 0.5,
+              child: const Center(
+                child: CircularProgressIndicator(
+                  color: Colors.red,
+                ),
+              ),
             );
           } else {
             var convertJson = jsonDecode(snapshot.data.toString()) as List;
             return DataTable(
-              sortAscending: true,
-              dataRowHeight: size.height * 0.03,
-              headingRowHeight: size.height * 0.04,
               headingRowColor:
                   MaterialStateColor.resolveWith((states) => Colors.black87),
               decoration: BoxDecoration(
@@ -61,7 +64,26 @@ class _HomeLeaderBoardState extends State<HomeLeaderBoard> {
               rows: convertJson
                   .map((e) => DataRow(cells: <DataCell>[
                         DataCell(Text('${e['rank']}')),
-                        DataCell(Text('${e['team']['name']}')),
+                        DataCell(Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.only(right: 5.0),
+                              alignment: Alignment.center,
+                              child: SvgPicture.network(
+                                '${e['team']['image']}',
+                                height: size.height * 0.04,
+                                placeholderBuilder: (BuildContext context) =>
+                                    const CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                                width: size.width * 0.25,
+                                child: Text('${e['team']['name']}')),
+                          ],
+                        )),
                         DataCell(Text('${e['wins']}')),
                         DataCell(Text('${e['losses']}')),
                       ]))

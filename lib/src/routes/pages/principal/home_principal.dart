@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:kings_league/src/routes/pages/leaderboard/home_leaderboard.dart';
 import 'package:kings_league/src/routes/pages/principal/widgets/widgestPrincipal.dart';
-import 'package:kings_league/src/routes/pages/statistics/home_leaderboard.dart';
+import 'package:kings_league/src/routes/pages/statistics/home_statistics.dart';
 import 'package:kings_league/src/routes/pages/teams/home_teams.dart';
 
 class HomePrincipal extends StatefulWidget {
@@ -17,7 +18,7 @@ class _HomePrincipalState extends State<HomePrincipal> {
 
   final List<Widget> _widget = const [
     HomeTeams(),
-    HomeTeams(),
+    HomeStatistics(),
     HomeLeaderBoard()
   ];
 
