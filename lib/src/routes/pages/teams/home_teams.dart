@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:kings_league/src/json/jsonTeams.dart';
 import 'package:kings_league/src/routes/api/api_kings.dart';
-import 'package:kings_league/src/routes/pages/principal/widgets/widgestPrincipal.dart';
+import 'package:kings_league/src/routes/pages/teams/widgets.dart';
 
 class HomeTeams extends StatefulWidget {
   const HomeTeams({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class HomeTeams extends StatefulWidget {
 
 class _HomeTeamsState extends State<HomeTeams> {
   ApiKings apiKings = ApiKings();
-  WidgestPrincipal wp = WidgestPrincipal();
+  final WidgetTeam _widgetTeam = WidgetTeam();
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,15 @@ class _HomeTeamsState extends State<HomeTeams> {
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
-                      debugPrint('===== $index');
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) => alertTeam(
+                              size,
+                              '${jsonClass[index].presidentId}',
+                              jsonClass[index].coach,
+                              jsonClass[index].channel,
+                              jsonClass[index].socialNetworks,
+                              '${jsonClass[index].name}'));
                     },
                     child: Container(
                       height: 70.0,
@@ -49,7 +57,7 @@ class _HomeTeamsState extends State<HomeTeams> {
                         borderRadius: BorderRadius.circular(12.0),
                         image: DecorationImage(
                             image: NetworkImage(
-                                '${wp.getColor('${jsonClass[index].name}')}')),
+                                '${_widgetTeam.getColor('${jsonClass[index].name}')}')),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -82,6 +90,38 @@ class _HomeTeamsState extends State<HomeTeams> {
                 });
           }
         },
+      ),
+    );
+  }
+
+  Widget alertTeam(Size size, String president, coach, channel, socialNetworks,
+      String team) {
+    return Dialog(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12.0))),
+      child: SizedBox(
+        height: size.height * 0.2,
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              height: size.height * 0.04,
+              width: double.infinity,
+              decoration: _widgetTeam.decorationAlertTeam,
+              child: Text(
+                team,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 19.0,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+            _widgetTeam.richText(context, "President", president),
+            _widgetTeam.richText(context, "Coach", coach),
+            // Text(socialNetworks.toString())
+          ],
+        ),
       ),
     );
   }

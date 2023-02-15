@@ -26,7 +26,7 @@ class _HomeStatisticsState extends State<HomeStatistics> {
         child: Column(
           children: [
             carouselMVP(size),
-            tableTopScorers(),
+            tableTopScorers(size),
           ],
         ),
       ),
@@ -115,11 +115,59 @@ class _HomeStatisticsState extends State<HomeStatistics> {
     );
   }
 
-  Widget tableTopScorers() {
+  Widget tableTopScorers(Size size) {
     return FutureBuilder(
         future: _apiKings.getStatisticsTopScorers(),
         builder: ((context, snapshot) {
-          return Text('data');
+          if (!snapshot.hasData) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            var convertJson = jsonDecode(snapshot.data.toString()) as List;
+
+            return Column(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  width: size.width * 0.85,
+                  height: size.height * 0.05,
+                  margin: const EdgeInsets.only(top: 15.0),
+                  decoration: const BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(12),
+                          topRight: Radius.circular(12))),
+                  child: const Text(
+                    'Top Scorers',
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                SizedBox(
+                  width: size.width * 0.85,
+                  child: DataTable(
+                    decoration:
+                        BoxDecoration(color: Colors.white.withOpacity(0.2)),
+                    columns: const [
+                      DataColumn(label: Text('Team')),
+                      DataColumn(label: Text('Player name')),
+                      DataColumn(label: Text('Goals')),
+                    ],
+                    rows: convertJson
+                        .map(
+                          (e) => DataRow(cells: <DataCell>[
+                            DataCell(SvgPicture.network(
+                              e['image'],
+                              height: 30.0,
+                            )),
+                            DataCell(Text(e['playerName'])),
+                            DataCell(Text('${e['goals']}')),
+                          ]),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ],
+            );
+          }
         }));
   }
 }

@@ -9,24 +9,24 @@ String jsontopScorersToJson(JsontopScorers data) => json.encode(data.toJson());
 
 class JsontopScorers {
   JsontopScorers({
-    required this.rank,
-    required this.playerName,
-    required this.gamesPlayed,
-    required this.goals,
-    required this.team,
-    required this.image,
-    required this.playerImage,
-    required this.teamId,
+    this.rank,
+    this.playerName,
+    this.gamesPlayed,
+    this.goals,
+    this.team,
+    this.image,
+    this.playerImage,
+    this.teamId,
   });
 
-  int rank;
-  String playerName;
-  int gamesPlayed;
-  int goals;
-  String team;
-  String image;
-  String playerImage;
-  String teamId;
+  int? rank;
+  String? playerName;
+  int? gamesPlayed;
+  int? goals;
+  String? team;
+  String? image;
+  String? playerImage;
+  String? teamId;
 
   factory JsontopScorers.fromJson(Map<String, dynamic> json) => JsontopScorers(
         rank: json["rank"],
