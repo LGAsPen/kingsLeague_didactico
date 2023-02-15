@@ -1,12 +1,14 @@
-# kings_league_didactivo
+# kings_league_didactico
 
-![Pantalla principal](https://user-images.githubusercontent.com/48097054/219133406-0f803c56-00ee-424d-8aca-d0262a8a0862.png)
-![información](https://user-images.githubusercontent.com/48097054/219133637-ae5e3f4d-ecbb-4110-85f7-6a193b408245.png)
-![detalle tabla](https://user-images.githubusercontent.com/48097054/219133642-bd703708-c39d-497c-9625-5cddcaaf87bc.png)
 
-A new Flutter project.
+![Desing](https://user-images.githubusercontent.com/48097054/219135233-00e5a35d-86ca-4a34-a28c-b261ec7f47ac.png)
+```dart
+degubPrint('Application for educational purposes. API developed by: midudev. Developed by Luis Roman(2023) ©');
+```
 
-## Getting Started
+## This is a Flutter project
+
+### Getting Started
 
 This project use Flutter 2.10.4
 This project is a starting point for a Flutter application.
